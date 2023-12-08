@@ -1,9 +1,4 @@
-package com.bestrookie.springframework.factory;
-
-import com.bestrookie.springframework.factory.config.BeanDefinition;
-
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+package com.bestrookie.springframework.beans.factory;
 
 /**
  * @Author bestrookie

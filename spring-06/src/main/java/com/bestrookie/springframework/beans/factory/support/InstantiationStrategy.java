@@ -1,6 +1,6 @@
-package com.bestrookie.springframework.factory.support;
+package com.bestrookie.springframework.beans.factory.support;
 
-import com.bestrookie.springframework.factory.config.BeanDefinition;
+import com.bestrookie.springframework.beans.factory.config.BeanDefinition;
 
 import java.lang.reflect.Constructor;
 

@@ -1,6 +1,6 @@
-package com.bestrookie.springframework.factory.support;
+package com.bestrookie.springframework.beans.factory.support;
 
-import com.bestrookie.springframework.factory.config.SingletonBeanRegistry;
+import com.bestrookie.springframework.beans.factory.config.SingletonBeanRegistry;
 
 import java.util.HashMap;
 import java.util.Map;

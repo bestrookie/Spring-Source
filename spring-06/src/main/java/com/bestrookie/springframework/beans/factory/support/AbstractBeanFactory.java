@@ -1,7 +1,7 @@
-package com.bestrookie.springframework.factory.support;
+package com.bestrookie.springframework.beans.factory.support;
 
-import com.bestrookie.springframework.factory.BeanFactory;
-import com.bestrookie.springframework.factory.config.BeanDefinition;
+import com.bestrookie.springframework.beans.factory.BeanFactory;
+import com.bestrookie.springframework.beans.factory.config.BeanDefinition;
 
 /**
  * @Author bestrookie

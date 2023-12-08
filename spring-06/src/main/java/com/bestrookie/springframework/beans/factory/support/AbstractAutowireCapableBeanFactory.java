@@ -1,10 +1,10 @@
-package com.bestrookie.springframework.factory.support;
+package com.bestrookie.springframework.beans.factory.support;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.bestrookie.springframework.PropertyValue;
 import com.bestrookie.springframework.PropertyValues;
-import com.bestrookie.springframework.factory.config.BeanDefinition;
-import com.bestrookie.springframework.factory.config.BeanReference;
+import com.bestrookie.springframework.beans.factory.config.BeanDefinition;
+import com.bestrookie.springframework.beans.factory.config.BeanReference;
 
 import java.lang.reflect.Constructor;
 

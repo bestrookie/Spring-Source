@@ -1,4 +1,4 @@
-package com.bestrookie.springframework.factory.config;
+package com.bestrookie.springframework.beans.factory.config;
 
 /**
  * @Author bestrookie
