@@ -1,7 +1,7 @@
 package com.bestrookie.springframework.beans.factory.support;
 
-import com.bestrookie.springframework.io.Resource;
-import com.bestrookie.springframework.io.ResourceLoader;
+import com.bestrookie.springframework.core.io.Resource;
+import com.bestrookie.springframework.core.io.ResourceLoader;
 
 /**
  * @Author bestrookie
@@ -40,7 +40,7 @@ public interface BeanDefinitionReader {
      * @param location location
      * @throws Exception exception
      */
-    void loadBeanDefinition(String location) throws Exception;
+    void loadBeanDefinitions(String location) throws Exception;
 
 
 

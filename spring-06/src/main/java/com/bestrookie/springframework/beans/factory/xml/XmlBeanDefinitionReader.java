@@ -7,8 +7,8 @@ import com.bestrookie.springframework.beans.factory.config.BeanDefinition;
 import com.bestrookie.springframework.beans.factory.config.BeanReference;
 import com.bestrookie.springframework.beans.factory.support.AbstractBeanDefinitionReader;
 import com.bestrookie.springframework.beans.factory.support.BeanDefinitionRegistry;
-import com.bestrookie.springframework.io.Resource;
-import com.bestrookie.springframework.io.ResourceLoader;
+import com.bestrookie.springframework.core.io.Resource;
+import com.bestrookie.springframework.core.io.ResourceLoader;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -31,19 +31,25 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
     @Override
     public void loadBeanDefinitions(Resource resource) throws Exception {
         try {
-
+            InputStream inputStream = resource.getInputStream();
+            doLoadBeanDefinitions(inputStream);
         }catch (Exception e){
-
+            throw new Exception("IOException parsing XML document form" + resource, e);
         }
     }
 
     @Override
     public void loadBeanDefinitions(Resource... resources) throws Exception {
-
+        for (Resource resource : resources) {
+            loadBeanDefinitions(resource);
+        }
     }
 
     @Override
-    public void loadBeanDefinition(String location) throws Exception {
+    public void loadBeanDefinitions(String location) throws Exception {
+        ResourceLoader resourceLoader = getResourceLoader();
+        Resource resource = resourceLoader.getResource(location);
+        loadBeanDefinitions(resource);
 
     }
 

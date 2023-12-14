@@ -1,4 +1,4 @@
-package com.bestrookie.springframework.io;
+package com.bestrookie.springframework.core.io;
 
 /**
  * @Author bestrookie
@@ -6,7 +6,7 @@ package com.bestrookie.springframework.io;
  * @Desc 包装资源加载器
  */
 public interface ResourceLoader {
-    String CLASSPATH_URL_PREFIX = "classpath";
+    String CLASSPATH_URL_PREFIX = "classpath:";
 
     /**
      * 获取资源

@@ -1,7 +1,7 @@
 package com.bestrookie.springframework.beans.factory.support;
 
-import com.bestrookie.springframework.io.DefaultResourceLoader;
-import com.bestrookie.springframework.io.ResourceLoader;
+import com.bestrookie.springframework.core.io.DefaultResourceLoader;
+import com.bestrookie.springframework.core.io.ResourceLoader;
 
 /**
  * @Author bestrookie

@@ -1,7 +1,6 @@
-package com.bestrookie.springframework.io;
+package com.bestrookie.springframework.core.io;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.nio.file.Files;
 
