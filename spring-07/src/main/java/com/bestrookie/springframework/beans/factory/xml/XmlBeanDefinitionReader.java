@@ -2,7 +2,7 @@ package com.bestrookie.springframework.beans.factory.xml;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.XmlUtil;
-import com.bestrookie.springframework.PropertyValue;
+import com.bestrookie.springframework.beans.PropertyValue;
 import com.bestrookie.springframework.beans.factory.config.BeanDefinition;
 import com.bestrookie.springframework.beans.factory.config.BeanReference;
 import com.bestrookie.springframework.beans.factory.support.AbstractBeanDefinitionReader;
@@ -31,8 +31,9 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
     @Override
     public void loadBeanDefinitions(Resource resource) throws Exception {
         try {
-            InputStream inputStream = resource.getInputStream();
-            doLoadBeanDefinitions(inputStream);
+            try (InputStream inputStream = resource.getInputStream()) {
+                doLoadBeanDefinitions(inputStream);
+            }
         }catch (Exception e){
             throw new Exception("IOException parsing XML document form" + resource, e);
         }
@@ -51,6 +52,13 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
         Resource resource = resourceLoader.getResource(location);
         loadBeanDefinitions(resource);
 
+    }
+
+    @Override
+    public void loadBeanDefinitions(String... location) throws Exception {
+        for (String s : location) {
+            loadBeanDefinitions(s);
+        }
     }
 
     protected void doLoadBeanDefinitions(InputStream inputStream) throws Exception {

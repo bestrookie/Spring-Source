@@ -8,9 +8,27 @@ package com.bestrookie.springframework.dto;
 public class UserService {
     private String uId;
     private UserDao userDao;
+    private String location;
+    private String company;
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
 
     public String queryUserInfo(){
-        return userDao.queryUserName(uId);
+        return userDao.queryUserName(uId) + ","+ company + "," + location;
     }
     public String getId() {
         return uId;

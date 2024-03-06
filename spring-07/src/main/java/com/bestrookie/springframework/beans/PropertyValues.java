@@ -1,4 +1,4 @@
-package com.bestrookie.springframework;
+package com.bestrookie.springframework.beans;
 
 import lombok.Data;
 

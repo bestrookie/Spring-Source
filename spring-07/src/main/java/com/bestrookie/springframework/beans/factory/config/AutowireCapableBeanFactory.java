@@ -8,4 +8,21 @@ import com.bestrookie.springframework.beans.factory.BeanFactory;
  * @Desc
  */
 public interface AutowireCapableBeanFactory extends BeanFactory {
+    /**
+     * 执行 BeanPostProcessors 接口实现类 possProcessBeforeInitialization 方法
+     * @param existingBean
+     * @param beanName
+     * @return
+     * @throws Exception
+     */
+    Object applyBeanPostProcessorsBeForeInitialization(Object existingBean, String beanName) throws Exception;
+
+    /**
+     * 执行 BeanPostProcessors 接口实现类的 postProcessorsAfterInitialization 方法
+     * @param existingBean
+     * @param beanName
+     * @return
+     * @throws Exception
+     */
+    Object applyBeanPostProcessorsAfterInitialization(Object existingBean, String beanName) throws Exception;
 }

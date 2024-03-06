@@ -1,6 +1,6 @@
 package com.bestrookie.springframework.beans.factory.config;
 
-import com.bestrookie.springframework.PropertyValues;
+import com.bestrookie.springframework.beans.PropertyValues;
 import lombok.Data;
 
 /**
