@@ -12,4 +12,9 @@ public interface SingletonBeanRegistry {
      * @return 对象
      */
     Object getSingleton(String beanName);
+
+    /**
+     * 销毁单利对象
+     */
+    void destroySingletons() throws Exception;
 }

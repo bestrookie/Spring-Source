@@ -1,14 +1,18 @@
 package com.bestrookie.springframework.beans.factory.support;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
 import com.bestrookie.springframework.beans.PropertyValue;
 import com.bestrookie.springframework.beans.PropertyValues;
+import com.bestrookie.springframework.beans.factory.DisposableBean;
+import com.bestrookie.springframework.beans.factory.InitializingBean;
 import com.bestrookie.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import com.bestrookie.springframework.beans.factory.config.BeanDefinition;
 import com.bestrookie.springframework.beans.factory.config.BeanPostProcessor;
 import com.bestrookie.springframework.beans.factory.config.BeanReference;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 
 /**
  * @Author bestrookie
@@ -29,8 +33,17 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         }catch (Exception e){
             throw new Exception("Instantiation of bean failed", e);
         }
+        //注册实现了DisposableBean接口的bean 对象
+
+        registerDisposableBeanIfNecessary(beanName, bean, beanDefinition);
         addSingleton(beanName, bean);
         return bean;
+    }
+
+    protected void registerDisposableBeanIfNecessary(String beanName, Object bean, BeanDefinition beanDefinition){
+        if (bean instanceof DisposableBean || StrUtil.isNotEmpty(beanDefinition.getDestroyMethodName())){
+            registerDisposableBean(beanName, new DisposableBeanAdapter(bean, beanName, beanDefinition));
+        }
     }
 
     protected Object createBeanInstance(BeanDefinition beanDefinition, String beanName, Object[] args) throws Exception {
@@ -74,10 +87,6 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         }
     }
 
-    private void invokeInitMethods(String beanName, Object wrappedBean, BeanDefinition beanDefinition){
-
-    }
-
     @Override
     public Object applyBeanPostProcessorsBeForeInitialization(Object existingBean, String beanName) throws Exception {
         Object result = existingBean;
@@ -114,4 +123,20 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         return wrappedBean;
     }
 
+    private void invokeInitMethods(String beanName, Object bean, BeanDefinition beanDefinition) throws Exception {
+        //1.实现接口 initializingBean
+        if(bean instanceof InitializingBean){
+            ((InitializingBean) bean).afterPropertiesSet();
+        }
+
+        //2.配置信息 init0method {判断是为了避免二次执行销毁}
+        String initMethodName = beanDefinition.getInitMethodName();
+        if (StrUtil.isNotEmpty(initMethodName)){
+            Method initMethod = beanDefinition.getBeanClass().getMethod(initMethodName);
+            if (null == initMethod){
+                throw new Exception("could not find an init method name "  + initMethodName + "on bean with name " + beanName);
+            }
+            initMethod.invoke(bean);
+        }
+    }
 }

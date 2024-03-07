@@ -12,4 +12,14 @@ public interface ConfigurableApplicationContext extends ApplicationContext{
      * @throws Exception exception
      */
     void refresh() throws Exception;
+
+    /**
+     * 注册虚拟机钩子
+     */
+    void registerShutdownHook();
+
+    /**
+     * 手动执行关闭
+     */
+    void close() throws Exception;
 }

@@ -48,4 +48,14 @@ public class BeanFactoryTest {
         String result = userService.queryUserInfo();
         System.out.println("测试结果: " + result);
     }
+
+    @Test
+    public void test3() throws Exception {
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
+        applicationContext.registerShutdownHook();
+
+        UserService userService = applicationContext.getBean("userService", UserService.class);
+        String result = userService.queryUserInfo();
+        System.out.println("测试结果： "+ result);
+    }
 }
