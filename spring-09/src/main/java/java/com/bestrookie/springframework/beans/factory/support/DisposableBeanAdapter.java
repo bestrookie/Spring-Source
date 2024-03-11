@@ -1,4 +1,4 @@
-package java.com.bestrookie.springframework.beans.factory.support;
+package com.bestrookie.springframework.beans.factory.support;
 
 import cn.hutool.core.util.StrUtil;
 import com.bestrookie.springframework.beans.factory.DisposableBean;

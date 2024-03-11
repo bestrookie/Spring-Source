@@ -1,4 +1,4 @@
-package java.com.bestrookie.springframework.dto;
+package com.bestrookie.springframework.dto;
 
 import com.bestrookie.springframework.beans.factory.DisposableBean;
 import com.bestrookie.springframework.beans.factory.InitializingBean;

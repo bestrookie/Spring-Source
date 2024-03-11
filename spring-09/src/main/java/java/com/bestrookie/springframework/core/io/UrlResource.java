@@ -1,4 +1,4 @@
-package java.com.bestrookie.springframework.core.io;
+package com.bestrookie.springframework.core.io;
 
 import cn.hutool.core.lang.Assert;
 
@@ -13,7 +13,7 @@ import java.net.URLConnection;
  * @Date 2023/12/7 15:16
  * @Desc url读取文件
  */
-public class UrlResource  implements Resource {
+public class UrlResource  implements Resource{
     private final URL url;
 
     public UrlResource(URL url){

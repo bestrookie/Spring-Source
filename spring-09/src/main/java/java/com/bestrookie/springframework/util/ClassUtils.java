@@ -1,4 +1,4 @@
-package java.com.bestrookie.springframework.util;
+package com.bestrookie.springframework.util;
 
 /**
  * @Author bestrookie

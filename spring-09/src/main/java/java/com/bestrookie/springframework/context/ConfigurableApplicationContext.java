@@ -1,4 +1,4 @@
-package java.com.bestrookie.springframework.context;
+package com.bestrookie.springframework.context;
 
 /**
  * @Author bestrookie

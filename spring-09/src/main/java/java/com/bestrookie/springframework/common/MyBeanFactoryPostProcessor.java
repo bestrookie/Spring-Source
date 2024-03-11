@@ -1,4 +1,4 @@
-package java.com.bestrookie.springframework.common;
+package com.bestrookie.springframework.common;
 
 import com.bestrookie.springframework.beans.PropertyValue;
 import com.bestrookie.springframework.beans.PropertyValues;

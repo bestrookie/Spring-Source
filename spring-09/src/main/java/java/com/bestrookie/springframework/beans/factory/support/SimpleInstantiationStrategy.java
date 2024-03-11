@@ -1,4 +1,4 @@
-package java.com.bestrookie.springframework.beans.factory.support;
+package com.bestrookie.springframework.beans.factory.support;
 
 import com.bestrookie.springframework.beans.factory.config.BeanDefinition;
 

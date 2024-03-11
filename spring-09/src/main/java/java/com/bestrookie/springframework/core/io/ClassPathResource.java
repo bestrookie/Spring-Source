@@ -1,4 +1,4 @@
-package java.com.bestrookie.springframework.core.io;
+package com.bestrookie.springframework.core.io;
 
 import cn.hutool.core.lang.Assert;
 import com.bestrookie.springframework.util.ClassUtils;

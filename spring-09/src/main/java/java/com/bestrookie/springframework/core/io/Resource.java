@@ -1,4 +1,4 @@
-package java.com.bestrookie.springframework.core.io;
+package com.bestrookie.springframework.core.io;
 
 import java.io.InputStream;
 

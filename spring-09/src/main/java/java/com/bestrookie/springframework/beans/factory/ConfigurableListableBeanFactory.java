@@ -1,4 +1,4 @@
-package java.com.bestrookie.springframework.beans.factory;
+package com.bestrookie.springframework.beans.factory;
 
 import com.bestrookie.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import com.bestrookie.springframework.beans.factory.config.BeanDefinition;

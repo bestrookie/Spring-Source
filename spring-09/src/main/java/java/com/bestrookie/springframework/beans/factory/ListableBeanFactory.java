@@ -1,4 +1,4 @@
-package java.com.bestrookie.springframework.beans.factory;
+package com.bestrookie.springframework.beans.factory;
 
 import java.util.Map;
 
@@ -7,7 +7,7 @@ import java.util.Map;
  * @Date 2023/12/7 11:18
  * @Desc
  */
-public interface ListableBeanFactory  extends BeanFactory {
+public interface ListableBeanFactory  extends  BeanFactory{
 
     /**
      * 按照类型返回Bean实例

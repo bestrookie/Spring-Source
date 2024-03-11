@@ -1,4 +1,4 @@
-package java.com.bestrookie.springframework.dto;
+package com.bestrookie.springframework.dto;
 
 import java.util.HashMap;
 import java.util.Map;

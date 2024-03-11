@@ -1,5 +1,6 @@
-package java.com.bestrookie.springframework.beans.factory.support;
+package com.bestrookie.springframework.beans.factory.support;
 
+import com.bestrookie.springframework.beans.factory.BeanFactory;
 import com.bestrookie.springframework.beans.factory.config.BeanDefinition;
 import com.bestrookie.springframework.beans.factory.config.BeanPostProcessor;
 import com.bestrookie.springframework.beans.factory.config.ConfigurableBeanFactory;

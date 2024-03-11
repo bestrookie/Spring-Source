@@ -1,4 +1,4 @@
-package java.com.bestrookie.springframework.beans.factory.xml;
+package com.bestrookie.springframework.beans.factory.xml;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.XmlUtil;

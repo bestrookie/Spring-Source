@@ -1,4 +1,4 @@
-package java.com.bestrookie.springframework.context.support;
+package com.bestrookie.springframework.context.support;
 
 import com.bestrookie.springframework.beans.factory.ConfigurableListableBeanFactory;
 import com.bestrookie.springframework.beans.factory.support.DefaultListableBeanFactory;

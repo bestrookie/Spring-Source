@@ -1,4 +1,4 @@
-package java.com.bestrookie.springframework.beans.factory.support;
+package com.bestrookie.springframework.beans.factory.support;
 
 import com.bestrookie.springframework.beans.factory.config.BeanDefinition;
 import net.sf.cglib.proxy.Enhancer;
@@ -11,7 +11,7 @@ import java.lang.reflect.Constructor;
  * @Date 2023/11/24 15:00
  * @Desc cglib实例化
  */
-public class CglibSubclassingInstantiationStrategy implements InstantiationStrategy {
+public class CglibSubclassingInstantiationStrategy implements InstantiationStrategy{
     @Override
     public Object instantiate(BeanDefinition beanDefinition, String beanName, Constructor ctor, Object[] args) throws Exception {
         Enhancer enhancer = new Enhancer();

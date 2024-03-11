@@ -1,9 +1,9 @@
-package java.com.bestrookie.springframework.context.support;
+package com.bestrookie.springframework.context.support;
 
+import com.bestrookie.springframework.context.ConfigurableApplicationContext;
 import com.bestrookie.springframework.beans.factory.ConfigurableListableBeanFactory;
 import com.bestrookie.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import com.bestrookie.springframework.beans.factory.config.BeanPostProcessor;
-import com.bestrookie.springframework.context.ConfigurableApplicationContext;
 import com.bestrookie.springframework.core.io.DefaultResourceLoader;
 
 import java.util.Map;
