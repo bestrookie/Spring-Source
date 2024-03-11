@@ -14,6 +14,7 @@
         <module name="spring-05" />
         <module name="spring-08" />
         <module name="spring-09" />
+        <module name="spring-10" />
       </profile>
     </annotationProcessing>
   </component>
