@@ -51,14 +51,24 @@ public class BeanFactoryTest {
 
     @Test
     public void test3() throws Exception {
+       //1.初始化 BeanFactory
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
+        applicationContext.registerShutdownHook();
+        //2.获取 Bean 对象调用方法
+        UserService userService01 = applicationContext.getBean("userService", UserService.class);
+        UserService userService02 = applicationContext.getBean("userService", UserService.class);
+
+        //3.配置 scope
+        System.out.println(userService01);
+        System.out.println(userService02);
+    }
+    @Test
+    public void test4() throws Exception {
+        //1.初始化 BeanFactory
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
         applicationContext.registerShutdownHook();
 
         UserService userService = applicationContext.getBean("userService", UserService.class);
-        String result = userService.queryUserInfo();
-        System.out.println("测试结果： "+ result);
-
-        System.out.println("ApplicationContextAware："+userService.getApplicationContext());
-        System.out.println("BeanFactoryAware："+userService.getBeanFactory());
+        System.out.println("测试结果:" + userService.queryUserInfo());
     }
 }

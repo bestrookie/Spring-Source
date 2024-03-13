@@ -1,51 +1,52 @@
 package com.bestrookie.springframework.dto;
 
-import com.bestrookie.springframework.beans.factory.BeanClassLoaderAware;
-import com.bestrookie.springframework.beans.factory.BeanNameAware;
-import com.bestrookie.springframework.context.ApplicationContext;
-import com.bestrookie.springframework.context.ApplicationContextAware;
 import lombok.Data;
-import com.bestrookie.springframework.beans.factory.BeanFactory;
-import com.bestrookie.springframework.beans.factory.BeanFactoryAware;
+
 
 /**
  * @Author bestrookie
  * @Date 2023/12/12 10:41
  * @Desc
  */
-@Data
-public class UserService implements BeanNameAware, ApplicationContextAware, BeanFactoryAware, BeanClassLoaderAware {
+public class UserService{
     private String uId;
-    private UserDao userDao;
-    private String location;
     private String company;
+    private String location;
+    private IUserDao userDao;
 
-    private ApplicationContext applicationContext;
-    private BeanFactory beanFactory;
-
-
-
-    public String queryUserInfo(){
-        return userDao.queryUserName(uId) + ","+ company + "," + location;
+    public String queryUserInfo() {
+        return userDao.queryUserName(uId) + "," + company + "," + location;
     }
 
-    @Override
-    public void setBeanFactory(BeanFactory beanFactory) throws Exception {
-        this.beanFactory = beanFactory;
+    public String getuId() {
+        return uId;
     }
 
-    @Override
-    public void setBeanName(String name) {
-        System.out.println("bean name is:" + name);
+    public void setuId(String uId) {
+        this.uId = uId;
     }
 
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws Exception {
-        this.applicationContext = applicationContext;
+    public String getCompany() {
+        return company;
     }
 
-    @Override
-    public void setBeanClassLoader(ClassLoader classLoader) throws Exception {
-        System.out.println("ClassLoader: + " + classLoader);
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public IUserDao getUserDao() {
+        return userDao;
+    }
+
+    public void setUserDao(IUserDao userDao) {
+        this.userDao = userDao;
     }
 }
