@@ -3,9 +3,16 @@ package com.bestrookie.springframework.context.support;
 import com.bestrookie.springframework.beans.factory.ConfigurableListableBeanFactory;
 import com.bestrookie.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import com.bestrookie.springframework.beans.factory.config.BeanPostProcessor;
+import com.bestrookie.springframework.context.ApplicationEvent;
+import com.bestrookie.springframework.context.ApplicationListener;
 import com.bestrookie.springframework.context.ConfigurableApplicationContext;
+import com.bestrookie.springframework.context.event.ApplicationEventMulticaster;
+import com.bestrookie.springframework.context.event.ContextCloseEvent;
+import com.bestrookie.springframework.context.event.ContextRefreshedEvent;
+import com.bestrookie.springframework.context.event.SimpleApplicationEventMulticaster;
 import com.bestrookie.springframework.core.io.DefaultResourceLoader;
 
+import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -14,6 +21,9 @@ import java.util.Map;
  * @Desc 应用上下文抽象类实现
  */
 public abstract class AbstractApplicationContext extends DefaultResourceLoader implements ConfigurableApplicationContext {
+    public static final String APPLICATION_EVENT_MULTICASTER_BEAN_NAME = "applicationEventMulticaster";
+
+    private ApplicationEventMulticaster applicationEventMulticaster;
     @Override
     public void refresh() throws Exception {
         //1.创建 BeanFactory，并创建 BeanDefinition
@@ -30,8 +40,16 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
         //5.BeanPostProcess 需要提前于其他 Bean 对想想实例化之前执行注册操作
         registerBeanPostProcessors(beanFactory);
 
-        //6.提前实例化单例 Bean 对象
+        //6.初始化时间发布者
+        initApplicationEventMulticaster();
+
+        //7.注册时间监听器
+        registerListener();
+
+        //8.提前实例化单例bean
         beanFactory.preInstantiateSingletons();
+        //9.发布容器刷新完成时间
+        finishRefresh();
 
     }
 
@@ -48,6 +66,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
 
     @Override
     public void close() throws Exception {
+        publishEvent(new ContextCloseEvent(this));
         getBeanFactory().destroySingletons();
     }
 
@@ -77,6 +96,22 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
         }
     }
 
+    private void initApplicationEventMulticaster() throws Exception {
+        ConfigurableListableBeanFactory beanFactory = getBeanFactory();
+        applicationEventMulticaster = new SimpleApplicationEventMulticaster(beanFactory);
+        beanFactory.registerSingleton(APPLICATION_EVENT_MULTICASTER_BEAN_NAME, applicationEventMulticaster);
+    }
+    private void registerListener() throws Exception {
+        Collection<ApplicationListener> applicationListeners = getBeanOfType(ApplicationListener.class).values();
+        for (ApplicationListener applicationListener : applicationListeners) {
+            applicationEventMulticaster.addApplicationLister(applicationListener);
+        }
+    }
+
+    private void finishRefresh() throws Exception {
+        publishEvent(new ContextRefreshedEvent(this));
+    }
+
     @Override
     public Object getBean(String beanName) throws Exception {
         return getBeanFactory().getBean(beanName);
@@ -100,5 +135,10 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
     @Override
     public String[] getBeanDefinitionNames() {
         return new String[0];
+    }
+
+    @Override
+    public void publishEvent(ApplicationEvent event) throws Exception {
+        applicationEventMulticaster.multicastEvent(event);
     }
 }
