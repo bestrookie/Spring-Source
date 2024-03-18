@@ -1,50 +1,36 @@
 package com.bestrookie.springframework.dto;
 
 
+import java.util.Random;
+
 /**
  * @Author bestrookie
  * @Date 2023/12/12 10:41
  * @Desc
  */
-public class UserService{
-    private String uId;
-    private String company;
-    private String location;
-    private IUserDao userDao;
-
+public class UserService implements IUserService{
+    @Override
     public String queryUserInfo() {
-        return userDao.queryUserName(uId) + "," + company + "," + location;
+        try {
+            Thread.sleep(new Random(1).nextInt(100));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return "bestrookie, 1000001, 青岛";
     }
 
-    public String getuId() {
-        return uId;
+    @Override
+    public String register(String userName) {
+        try {
+            Thread.sleep(new Random(1).nextInt(100));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return "注册用户： " + userName + "success";
     }
 
-    public void setuId(String uId) {
-        this.uId = uId;
-    }
-
-    public String getCompany() {
-        return company;
-    }
-
-    public void setCompany(String company) {
-        this.company = company;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public IUserDao getUserDao() {
-        return userDao;
-    }
-
-    public void setUserDao(IUserDao userDao) {
-        this.userDao = userDao;
+    @Override
+    public String helloWorld() {
+        return "不走监控";
     }
 }
