@@ -19,7 +19,7 @@ public class Cglib2AopProxy implements AopProxy{
         this.advised = advised;
     }
     @Override
-    public Object getPoxy() {
+    public Object getProxy() {
         Enhancer enhancer = new Enhancer();
         enhancer.setSuperclass(advised.getTargetSource().getTarget().getClass());
         enhancer.setInterfaces(advised.getTargetSource().getTargetClass());

@@ -2,7 +2,7 @@
 <beans>
     <bean id = "userDao" class = "com.bestrookie.com.bestrookie.springframework.dto.UserDao"/>
 
-    <bean id = "userService" class="com.bestrookie.com.bestrookie.springframework.dto.UserService">
+    <bean id = "userService" class="com.bestrookie.com.bestrookie.springframework.dto.UserServiceImpl">
         <property name="uId" value="10001"/>
         <property name="company" value="腾讯"/>
         <property name="location" value="深圳"/>

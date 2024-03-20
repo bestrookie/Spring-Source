@@ -8,29 +8,22 @@ import java.util.Random;
  * @Date 2023/12/12 10:41
  * @Desc
  */
-public class UserService implements IUserService {
-    @Override
+public class UserServiceImpl implements IUserService {
     public String queryUserInfo() {
         try {
             Thread.sleep(new Random(1).nextInt(100));
-        }catch (Exception e){
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return "bestrookie, 1000001, 青岛";
+        return "小傅哥，100001，深圳";
     }
 
-    @Override
     public String register(String userName) {
         try {
             Thread.sleep(new Random(1).nextInt(100));
-        }catch (Exception e){
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return "注册用户： " + userName + "success";
-    }
-
-    @Override
-    public String helloWorld() {
-        return "不走监控";
+        return "注册用户：" + userName + " success！";
     }
 }

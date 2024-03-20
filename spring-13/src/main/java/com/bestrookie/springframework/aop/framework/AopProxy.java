@@ -6,5 +6,5 @@ package com.bestrookie.springframework.aop.framework;
  * @Desc
  */
 public interface AopProxy {
-    Object getPoxy();
+    Object getProxy();
 }

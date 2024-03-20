@@ -24,19 +24,58 @@ public class BeanDefinition {
     private boolean prototype = false;
     private String scope = SCOPE_SINGLETON;
 
-    public void setScope(String scope){
+    public BeanDefinition(Class beanClass) {
+        this(beanClass, null);
+    }
+
+    public BeanDefinition(Class beanClass, PropertyValues propertyValues) {
+        this.beanClass = beanClass;
+        this.propertyValues = propertyValues != null ? propertyValues : new PropertyValues();
+    }
+
+    public void setScope(String scope) {
         this.scope = scope;
         this.singleton = SCOPE_SINGLETON.equals(scope);
         this.prototype = SCOPE_PROTOTYPE.equals(scope);
     }
 
-    public BeanDefinition(Class beanClass) {
-        this.beanClass = beanClass;
-        this.propertyValues = new PropertyValues();
+    public boolean isSingleton() {
+        return singleton;
     }
 
-    public BeanDefinition(Class beanClass, PropertyValues propertyValues){
+    public boolean isPrototype() {
+        return prototype;
+    }
+
+    public Class getBeanClass() {
+        return beanClass;
+    }
+
+    public void setBeanClass(Class beanClass) {
         this.beanClass = beanClass;
-        this.propertyValues = propertyValues != null ? propertyValues : new PropertyValues();
+    }
+
+    public PropertyValues getPropertyValues() {
+        return propertyValues;
+    }
+
+    public void setPropertyValues(PropertyValues propertyValues) {
+        this.propertyValues = propertyValues;
+    }
+
+    public String getInitMethodName() {
+        return initMethodName;
+    }
+
+    public void setInitMethodName(String initMethodName) {
+        this.initMethodName = initMethodName;
+    }
+
+    public String getDestroyMethodName() {
+        return destroyMethodName;
+    }
+
+    public void setDestroyMethodName(String destroyMethodName) {
+        this.destroyMethodName = destroyMethodName;
     }
 }

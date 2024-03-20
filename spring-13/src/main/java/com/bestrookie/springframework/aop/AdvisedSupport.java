@@ -9,6 +9,7 @@ import org.aopalliance.intercept.MethodInterceptor;
  * @Desc 主要是用于把代理、拦截、匹配的各项属性包装到一个类中，方便在 Proxy 实现类进行使用。这和你的业务开发中包装入参是一个道理
  */
 public class AdvisedSupport {
+    private boolean proxyTargetClass = false;
 
     /**
      * 是一个目标对象，在目标对象类中提供 Object 入参属性，以及获取目标类 TargetClass 信息。
@@ -24,6 +25,14 @@ public class AdvisedSupport {
      * 是一个匹配方法的操作，这个对象由 AspectJExpressionPointcut 提供服务
      */
     private MethodMatcher methodMatcher;
+
+    public boolean isProxyTargetClass() {
+        return proxyTargetClass;
+    }
+
+    public void setProxyTargetClass(boolean proxyTargetClass) {
+        this.proxyTargetClass = proxyTargetClass;
+    }
 
     public TargetSource getTargetSource() {
         return targetSource;
