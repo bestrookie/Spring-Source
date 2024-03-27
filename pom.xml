@@ -20,6 +20,7 @@
         <module>spring-11</module>
         <module>spring-12</module>
         <module>spring-13</module>
+        <module>spring-14</module>
     </modules>
 
     <dependencies>
