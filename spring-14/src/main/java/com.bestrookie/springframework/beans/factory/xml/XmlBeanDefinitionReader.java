@@ -1,19 +1,24 @@
 package com.bestrookie.springframework.beans.factory.xml;
 
+
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.core.util.XmlUtil;
 import com.bestrookie.springframework.beans.PropertyValue;
 import com.bestrookie.springframework.beans.factory.config.BeanDefinition;
 import com.bestrookie.springframework.beans.factory.config.BeanReference;
 import com.bestrookie.springframework.beans.factory.support.AbstractBeanDefinitionReader;
 import com.bestrookie.springframework.beans.factory.support.BeanDefinitionRegistry;
+import com.bestrookie.springframework.context.annotation.ClassPathBeanDefinitionScanner;
 import com.bestrookie.springframework.core.io.Resource;
 import com.bestrookie.springframework.core.io.ResourceLoader;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
 import org.w3c.dom.NodeList;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * @Author bestrookie
@@ -61,76 +66,103 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
         }
     }
 
+    /**
+     * 从输入流中加载Bean定义。
+     * @param inputStream 输入流，包含Bean的配置信息。
+     * @throws Exception 如果配置有误或加载过程中发生错误，则抛出异常。
+     */
     protected void doLoadBeanDefinitions(InputStream inputStream) throws Exception {
-        Document doc = XmlUtil.readXML(inputStream);
+        SAXReader reader = new SAXReader();
+        Document doc = reader.read(inputStream);
 
-        Element root = doc.getDocumentElement();
+        Element root = doc.getRootElement();
 
-        NodeList childNodes = root.getChildNodes();
-        for (int i = 0; i < childNodes.getLength(); i++) {
-            //判断元素
-            if (!(childNodes.item(i) instanceof Element)) {
-                continue;
+        // 检查是否存在"comment-scan"元素，并获取其"base-package"属性值
+        Element commentScan = root.element("component-scan");
+
+        if (null != commentScan){
+            String scanPath = commentScan.attributeValue("base-package");
+            // 如果"base-package"属性为空或不存在，则抛出异常
+            if (StrUtil.isEmpty(scanPath)){
+                throw new Exception("the value of base-package attribute can not empty or null");
+            }else {
+                scanPackage(scanPath);
             }
-            //判断对象
-            if (!"bean".equals(childNodes.item(i).getNodeName())){
-                continue;
-            }
+        }
 
-            Element bean = (Element)childNodes.item(i);
-            String id = bean.getAttribute("id");
-            String name = bean.getAttribute("name");
-            String className = bean.getAttribute("class");
+        // 获取所有"bean"元素，并遍历它们
+        List<Element> beanList = root.elements("bean");
+        for (Element bean : beanList) {
 
-            String initMethod = bean.getAttribute("init-method");
-            String destroyMethodName = bean.getAttribute("destroy-method");
-            String beanScope = bean.getAttribute("scope");
+            // 获取bean的属性值：id、name、class等
+            String id = bean.attributeValue("id");
+            String name = bean.attributeValue("name");
+            String className = bean.attributeValue("class");
+            String initMethod = bean.attributeValue("init-method");
+            String destroyMethodName = bean.attributeValue("destroy-method");
+            String beanScope = bean.attributeValue("scope");
 
-            //获取class
+
             Class<?> clazz = Class.forName(className);
-
-            //优先级 id > name
+            // 根据id和name确定bean的名称，优先使用id
             String beanName = StrUtil.isNotEmpty(id) ? id : name;
             if (StrUtil.isEmpty(beanName)){
                 beanName = StrUtil.lowerFirst(clazz.getSimpleName());
             }
 
-            //定义bean
+            // 根据类名创建BeanDefinition，并设置初始化和销毁方法名
+
             BeanDefinition beanDefinition = new BeanDefinition(clazz);
             beanDefinition.setInitMethodName(initMethod);
             beanDefinition.setDestroyMethodName(destroyMethodName);
 
+            // 如果指定了作用域，则设置Bean的作用域
             if (StrUtil.isNotEmpty(beanScope)){
                 beanDefinition.setScope(beanScope);
             }
 
-            //读取属性并填充
-            for (int j = 0; j < bean.getChildNodes().getLength(); j++) {
-                if (!(bean.getChildNodes().item(j) instanceof Element)){
-                    continue;
-                }
+            // 遍历并处理"property"元素，填充Bean的属性值
+            List<Element> propetryList = bean.elements("property");
+            for (Element property : propetryList) {
 
-                if (!"property".equals(bean.getChildNodes().item(j).getNodeName())){
-                    continue;
-                }
-                //解析标签 property
-                Element property = (Element) bean.getChildNodes().item(j);
-                String attrName = property.getAttribute("name");
-                String attrValue = property.getAttribute("value");
-                String attrRef = property.getAttribute("ref");
-                //获取属性值：引入对象、值对象
+                String attrName = property.attributeValue("name");
+
+                String attrValue = property.attributeValue("value");
+
+                String attrRef = property.attributeValue("ref");
+
+                // 获取属性的实际值，可以是直接的值或对其他bean的引用
                 Object value = StrUtil.isNotEmpty(attrRef) ? new BeanReference(attrRef) : attrValue;
-                //创建属性信息
+
+                // 创建属性信息并添加到BeanDefinition中
                 PropertyValue propertyValues = new PropertyValue(attrName, value);
                 beanDefinition.getPropertyValues().addPropertyValue(propertyValues);
 
             }
+
+            // 检查是否已存在同名的bean定义，若已存在，则抛出异常
             if (getRegistry().containsBeanDefinition(beanName)){
                 throw new Exception("Duplicate beanName[" + beanName + "] is not allowed");
             }
-            //注册 BeanDefinition
+
+            // 注册BeanDefinition
             getRegistry().registerBeanDefinition(beanName, beanDefinition);
 
         }
     }
+
+
+    /**
+     * 扫描指定路径下的包，以注册为Spring Bean。
+     * @param scanPath 需要扫描的包路径，多个路径用逗号分隔。
+     */
+    private void scanPackage(String scanPath){
+        // 将扫描路径根据逗号分割为多个基础包名
+        String[] basePackages = StrUtil.split(scanPath, ",");
+        // 创建ClassPathBeanDefinitionScanner实例，用于扫描并注册Bean
+        ClassPathBeanDefinitionScanner scanner = new ClassPathBeanDefinitionScanner(getRegistry());
+        // 执行扫描，将basePackages作为扫描范围
+        scanner.doScan(basePackages);
+    }
+
 }
