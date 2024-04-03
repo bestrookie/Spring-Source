@@ -21,6 +21,7 @@
         <module>spring-12</module>
         <module>spring-13</module>
         <module>spring-14</module>
+        <module>spring-15</module>
     </modules>
 
     <dependencies>
