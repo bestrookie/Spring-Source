@@ -1,5 +1,7 @@
 package com.bestrookie.springframework.dto;
 
+import com.bestrookie.springframework.beans.factory.annotation.Autowired;
+import com.bestrookie.springframework.beans.factory.annotation.Value;
 import com.bestrookie.springframework.context.annotation.Component;
 
 import java.util.Random;
@@ -11,32 +13,33 @@ import java.util.Random;
  */
 @Component("userService")
 public class UserService implements IUserService{
+    @Value("${token}")
     private String token;
-    @Override
+
+    @Autowired
+    private UserDao userDao;
+
     public String queryUserInfo() {
         try {
             Thread.sleep(new Random(1).nextInt(100));
-        }catch (Exception e){
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return "bestrookie 100001  wu hu";
+        return userDao.queryUserName("10001") + "，" + token;
     }
 
-    @Override
     public String register(String userName) {
         try {
             Thread.sleep(new Random(1).nextInt(100));
-        }catch (Exception e){
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return "注册用户：" + userName + " success!";
+        return "注册用户：" + userName + " success！";
     }
 
     @Override
     public String toString() {
-        return "UserService{" +
-                "token='" + token + '\'' +
-                '}';
+        return "UserService#token = { " + token + " }";
     }
 
     public String getToken() {
@@ -45,5 +48,13 @@ public class UserService implements IUserService{
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public UserDao getUserDao() {
+        return userDao;
+    }
+
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
     }
 }

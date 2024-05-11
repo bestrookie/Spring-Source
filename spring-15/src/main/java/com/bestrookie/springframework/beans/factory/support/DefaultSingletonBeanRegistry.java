@@ -27,7 +27,6 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
         singletonObjects.put(beanName, singletonObject);
     }
 
-    @Override
     public void destroySingletons() throws Exception {
         Set<String> keySet = this.disposableBeanMap.keySet();
         Object[] disposableBeanNames = keySet.toArray();
@@ -42,10 +41,7 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
         }
     }
 
-    protected void addSingleton(String beanName, Object singletonObject){
-        singletonObjects.put(beanName, singletonObject);
-    }
-    
+
     public void registerDisposableBean(String beanName, DisposableBean bean){
         disposableBeanMap.put(beanName, bean);
     }

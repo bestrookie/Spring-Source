@@ -27,6 +27,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
                 return bean;
             }
             bean = createBeanInstance(beanDefinition, beanName, args);
+            applyBeanPostProcessorsBeforeApplyingPropertyValues(beanName, bean, beanDefinition);
             //给 Bean 填充属性
             applyPropertyValues(beanName, bean, beanDefinition);
             // 执行 Bean 的初始化方法和 BeanPostProcessor 的前置和后置处理方法
@@ -37,12 +38,25 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         //注册实现了DisposableBean接口的bean 对象
 
         registerDisposableBeanIfNecessary(beanName, bean, beanDefinition);
+
         if (beanDefinition.isSingleton()){
             registerSingleton(beanName, bean);
         }
         return bean;
     }
 
+    protected  void applyBeanPostProcessorsBeforeApplyingPropertyValues(String beanName, Object bean, BeanDefinition beanDefinition) throws Exception {
+        for (BeanPostProcessor beanPostProcessor : getBeanPostProcessors()) {
+            if (beanPostProcessor instanceof InstantiationAwareBeanPostProcessor){
+                PropertyValues pvs = ((InstantiationAwareBeanPostProcessor) beanPostProcessor).postProcessPropertyValues(beanDefinition.getPropertyValues(), bean, beanName);
+                if (null != pvs){
+                    for (PropertyValue propertyValue : pvs.getPropertyValues()) {
+                        beanDefinition.getPropertyValues().addPropertyValue(propertyValue);
+                    }
+                }
+            }
+        }
+    }
     protected void registerDisposableBeanIfNecessary(String beanName, Object bean, BeanDefinition beanDefinition){
         if (!beanDefinition.isSingleton()){
             return;

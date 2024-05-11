@@ -1,5 +1,7 @@
 package com.bestrookie.springframework.beans.factory;
 
+import cn.hutool.core.bean.BeanException;
+
 /**
  * @Author bestrookie
  * @Date 2023/11/20 14:01
@@ -29,4 +31,6 @@ public interface BeanFactory {
      * @throws Exception 异常
      */
     <T> T getBean(String name, Class<T> requireType) throws Exception;
+
+    <T> T getBean(Class<T> requireType) throws Exception;
 }

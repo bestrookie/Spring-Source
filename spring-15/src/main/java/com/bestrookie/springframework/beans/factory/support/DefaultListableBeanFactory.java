@@ -1,9 +1,12 @@
 package com.bestrookie.springframework.beans.factory.support;
 
+import cn.hutool.core.bean.BeanException;
 import com.bestrookie.springframework.beans.factory.ConfigurableListableBeanFactory;
 import com.bestrookie.springframework.beans.factory.config.BeanDefinition;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -58,5 +61,20 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
     @Override
     public void registerBeanDefinition(String beanName, BeanDefinition beanDefinition) {
         beanDefinitionMap.put(beanName, beanDefinition);
+    }
+
+    @Override
+    public <T> T getBean(Class<T> requireType) throws Exception {
+        List<String> beanNames = new ArrayList<>();
+        for (Map.Entry<String, BeanDefinition> entry : beanDefinitionMap.entrySet()) {
+            Class beanClass = entry.getValue().getBeanClass();
+            if (requireType.isAssignableFrom(beanClass)){
+                beanNames.add(entry.getKey());
+            }
+        }
+        if (1 == beanNames.size()){
+            return getBean(beanNames.get(0), requireType);
+        }
+        throw new BeanException(requireType + "expected single bean but found " + beanNames.size() + " :" + beanNames);
     }
 }

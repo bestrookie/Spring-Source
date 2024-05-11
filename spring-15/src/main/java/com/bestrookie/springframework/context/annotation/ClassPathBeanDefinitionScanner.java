@@ -1,6 +1,7 @@
 package com.bestrookie.springframework.context.annotation;
 
 import cn.hutool.core.util.StrUtil;
+import com.bestrookie.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 import com.bestrookie.springframework.beans.factory.config.BeanDefinition;
 import com.bestrookie.springframework.beans.factory.support.BeanDefinitionRegistry;
 
@@ -41,6 +42,8 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
                 registry.registerBeanDefinition(determineBeanName(beanDefinition), beanDefinition);
             }
         }
+        registry.registerBeanDefinition("com.bestrookie.springframework.context.annotation.internalAutowiredAnnotationProcessor", new BeanDefinition(AutowiredAnnotationBeanPostProcessor.class));
+
     }
 
 

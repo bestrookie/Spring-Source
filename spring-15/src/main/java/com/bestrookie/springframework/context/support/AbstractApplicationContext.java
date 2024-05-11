@@ -1,5 +1,6 @@
 package com.bestrookie.springframework.context.support;
 
+import cn.hutool.core.bean.BeanException;
 import com.bestrookie.springframework.beans.factory.ConfigurableListableBeanFactory;
 import com.bestrookie.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import com.bestrookie.springframework.beans.factory.config.BeanPostProcessor;
@@ -125,6 +126,11 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
     @Override
     public <T> T getBean(String name, Class<T> requireType) throws Exception {
         return getBeanFactory().getBean(name, requireType);
+    }
+
+    @Override
+    public <T> T getBean(Class<T> requireType) throws Exception {
+        return getBeanFactory().getBean(requireType);
     }
 
     @Override
