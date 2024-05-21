@@ -23,6 +23,7 @@
         <module>spring-14</module>
         <module>spring-15</module>
         <module>spring-16</module>
+        <module>spring-17</module>
     </modules>
 
     <dependencies>
