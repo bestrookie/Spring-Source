@@ -50,4 +50,19 @@ public interface InstantiationAwareBeanPostProcessor extends BeanPostProcessor {
      */
     boolean postProcessAfterInstantiation(Object bean, String beanName) throws Exception;
 
+    /**
+     * 获取早期 bean 引用的默认实现。
+     * <p>
+     * 此方法的目的是在实际初始化 bean 之前提供一个可用的引用。在默认情况下，
+     * 它直接返回给定的 bean 对象。这个行为可以根据实际需求在继承这个接口的类中被重写。
+     *
+     * @param bean 待获取早期引用的 bean 对象。
+     * @param beanName bean 的名称，这个名称可以在初始化 bean 的过程中使用。
+     * @throws Exception 如果在获取早期引用过程中发生任何异常，可以抛出 Exception。
+     * @return 早期的 bean 引用，默认情况下即为传入的 bean 对象本身。
+     */
+    default Object getEarlyBeanReference(Object bean, String beanName) throws Exception {
+        return bean;
+    }
+
 }

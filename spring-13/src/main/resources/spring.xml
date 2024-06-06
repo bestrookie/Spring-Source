@@ -2,7 +2,7 @@
 <beans>
   <bean id="userService" class="com.bestrookie.springframework.dto.UserServiceImpl"/>
 
-  <bean class="com.bestrookie.springframework.aop.framework.autoproxy.DefaultAdvisorAutoCreator"/>
+  <bean class="com.bestrookie.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>
 
   <bean id="beforeAdvice" class="com.bestrookie.springframework.dto.UserServiceBeforeAdvice"/>
 
